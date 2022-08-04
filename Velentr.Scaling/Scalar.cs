@@ -203,6 +203,22 @@ namespace Velentr.Scaling
         }
 
         /// <summary>
+        ///     Gets or sets the internal scale.
+        /// </summary>
+        /// <value>
+        ///     The internal scale.
+        /// </value>
+        public Scale InternalScale { get; private set; }
+
+        /// <summary>
+        ///     Gets or sets the parent scalar.
+        /// </summary>
+        /// <value>
+        ///     The parent scalar.
+        /// </value>
+        public Scalar ParentScalar { get; set; }
+
+        /// <summary>
         ///     Gets or sets the virtual dimensions.
         /// </summary>
         /// <value>
@@ -221,102 +237,55 @@ namespace Velentr.Scaling
         }
 
         /// <summary>
-        ///     Gets or sets the parent scalar.
+        ///     Convert root to virtual.
         /// </summary>
-        /// <value>
-        ///     The parent scalar.
-        /// </value>
-        public Scalar ParentScalar { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the internal scale.
-        /// </summary>
-        /// <value>
-        ///     The internal scale.
-        /// </value>
-        public Scale InternalScale { get; private set; }
-
-        /// <summary>
-        ///     Creates child scalar.
-        /// </summary>
-        /// <param name="bounds">               The bounds. </param>
-        /// <param name="virtualDimensions">    (Optional) The virtual dimensions. </param>
+        /// <param name="point">                        The point. </param>
+        /// <param name="alreadyScaledToParentScale">
+        ///     (Optional) True to already scaled to parent
+        ///     scale.
+        /// </param>
         /// <returns>
-        ///     The new child scalar.
+        ///     The root converted to virtual.
         /// </returns>
-        public Scalar CreateChildScalar(Rectangle bounds, Dimensions? virtualDimensions = null)
+        public Point ConvertRootToVirtual(Point point, bool alreadyScaledToParentScale = false)
         {
-            return new Scalar(bounds, this, virtualDimensions);
-        }
-
-        /// <summary>
-        ///     Creates child scalar.
-        /// </summary>
-        /// <param name="position">             The position. </param>
-        /// <param name="dimensions">           The dimensions. </param>
-        /// <param name="virtualDimensions">    (Optional) The virtual dimensions. </param>
-        /// <returns>
-        ///     The new child scalar.
-        /// </returns>
-        public Scalar CreateChildScalar(Point position, Dimensions dimensions, Dimensions? virtualDimensions = null)
-        {
-            return new Scalar(position, dimensions, this, virtualDimensions);
-        }
-
-        /// <summary>
-        ///     Creates child scalar.
-        /// </summary>
-        /// <param name="x">                The x coordinate. </param>
-        /// <param name="y">                The y coordinate. </param>
-        /// <param name="width">            The width. </param>
-        /// <param name="height">           The height. </param>
-        /// <param name="virtualWidth">     (Optional) Width of the virtual. </param>
-        /// <param name="virtualHeight">    (Optional) Height of the virtual. </param>
-        /// <returns>
-        ///     The new child scalar.
-        /// </returns>
-        public Scalar CreateChildScalar(
-            int x
-          , int y
-          , int width
-          , int height
-          , int? virtualWidth = null
-          , int? virtualHeight = null
-        )
-        {
-            return new Scalar(
-                              x
-                            , y
-                            , width
-                            , height
-                            , this
-                            , virtualWidth
-                            , virtualHeight
-                             );
-        }
-
-        /// <summary>
-        ///     Calculates the properties.
-        /// </summary>
-        private void CalculateProperties()
-        {
-            this.InternalScale = new Scale(this._dimensions, this._virtualDimensions);
-            if (this._bounds != null)
+            if (!alreadyScaledToParentScale && this.ParentScalar != null)
             {
-                this._bounds = new Rectangle(this.Coordinates.IntX, this.Coordinates.IntY, this.Dimensions.Width, this.Dimensions.Height);
+                point = this.ParentScalar.ConvertRootToVirtual(point);
             }
+
+            point.X = IsDefaultScale(this.InternalScale.X) ? point.X - this.Coordinates.X : point.X * this.InternalScale.X - this.Coordinates.X * this.InternalScale.X;
+            point.Y = IsDefaultScale(this.InternalScale.Y) ? point.Y - this.Coordinates.Y : point.Y * this.InternalScale.Y - this.Coordinates.Y * this.InternalScale.Y;
+
+            return point;
         }
 
         /// <summary>
-        ///     Query if 'value' is default scale.
+        ///     Convert root to virtual.
         /// </summary>
-        /// <param name="value">    The value. </param>
+        /// <param name="x">                        The x coordinate. </param>
+        /// <param name="y">                        The y coordinate. </param>
+        /// <param name="alreadyScaledInParent">    (Optional) True to already scaled in parent. </param>
         /// <returns>
-        ///     True if default scale, false if not.
+        ///     The root converted to virtual.
         /// </returns>
-        private bool IsDefaultScale(double value)
+        public Point ConvertRootToVirtual(double x, double y, bool alreadyScaledInParent = false)
         {
-            return MathHelpers.Equals(DefaultScale, value);
+            return ConvertRootToVirtual(new Point(x, y), alreadyScaledInParent);
+        }
+
+        /// <summary>
+        ///     Convert root to virtual.
+        /// </summary>
+        /// <param name="x">                        The x coordinate. </param>
+        /// <param name="y">                        The y coordinate. </param>
+        /// <param name="alreadyScaledInParent">    (Optional) True to already scaled in parent. </param>
+        /// <returns>
+        ///     The root converted to virtual.
+        /// </returns>
+        public Point ConvertRootToVirtual(int x, int y, bool alreadyScaledInParent = false)
+        {
+            return ConvertRootToVirtual(new Point(x, y), alreadyScaledInParent);
         }
 
         /// <summary>
@@ -421,55 +390,62 @@ namespace Velentr.Scaling
         }
 
         /// <summary>
-        ///     Convert root to virtual.
+        ///     Creates child scalar.
         /// </summary>
-        /// <param name="point">                        The point. </param>
-        /// <param name="alreadyScaledToParentScale">
-        ///     (Optional) True to already scaled to parent
-        ///     scale.
-        /// </param>
+        /// <param name="bounds">               The bounds. </param>
+        /// <param name="virtualDimensions">    (Optional) The virtual dimensions. </param>
         /// <returns>
-        ///     The root converted to virtual.
+        ///     The new child scalar.
         /// </returns>
-        public Point ConvertRootToVirtual(Point point, bool alreadyScaledToParentScale = false)
+        public Scalar CreateChildScalar(Rectangle bounds, Dimensions? virtualDimensions = null)
         {
-            if (!alreadyScaledToParentScale && this.ParentScalar != null)
-            {
-                point = this.ParentScalar.ConvertRootToVirtual(point);
-            }
-
-            point.X = IsDefaultScale(this.InternalScale.X) ? point.X - this.Coordinates.X : point.X * this.InternalScale.X - this.Coordinates.X * this.InternalScale.X;
-            point.Y = IsDefaultScale(this.InternalScale.Y) ? point.Y - this.Coordinates.Y : point.Y * this.InternalScale.Y - this.Coordinates.Y * this.InternalScale.Y;
-
-            return point;
+            return new Scalar(bounds, this, virtualDimensions);
         }
 
         /// <summary>
-        ///     Convert root to virtual.
+        ///     Creates child scalar.
         /// </summary>
-        /// <param name="x">                        The x coordinate. </param>
-        /// <param name="y">                        The y coordinate. </param>
-        /// <param name="alreadyScaledInParent">    (Optional) True to already scaled in parent. </param>
+        /// <param name="position">             The position. </param>
+        /// <param name="dimensions">           The dimensions. </param>
+        /// <param name="virtualDimensions">    (Optional) The virtual dimensions. </param>
         /// <returns>
-        ///     The root converted to virtual.
+        ///     The new child scalar.
         /// </returns>
-        public Point ConvertRootToVirtual(double x, double y, bool alreadyScaledInParent = false)
+        public Scalar CreateChildScalar(Point position, Dimensions dimensions, Dimensions? virtualDimensions = null)
         {
-            return ConvertRootToVirtual(new Point(x, y), alreadyScaledInParent);
+            return new Scalar(position, dimensions, this, virtualDimensions);
         }
 
         /// <summary>
-        ///     Convert root to virtual.
+        ///     Creates child scalar.
         /// </summary>
-        /// <param name="x">                        The x coordinate. </param>
-        /// <param name="y">                        The y coordinate. </param>
-        /// <param name="alreadyScaledInParent">    (Optional) True to already scaled in parent. </param>
+        /// <param name="x">                The x coordinate. </param>
+        /// <param name="y">                The y coordinate. </param>
+        /// <param name="width">            The width. </param>
+        /// <param name="height">           The height. </param>
+        /// <param name="virtualWidth">     (Optional) Width of the virtual. </param>
+        /// <param name="virtualHeight">    (Optional) Height of the virtual. </param>
         /// <returns>
-        ///     The root converted to virtual.
+        ///     The new child scalar.
         /// </returns>
-        public Point ConvertRootToVirtual(int x, int y, bool alreadyScaledInParent = false)
+        public Scalar CreateChildScalar(
+            int x
+          , int y
+          , int width
+          , int height
+          , int? virtualWidth = null
+          , int? virtualHeight = null
+        )
         {
-            return ConvertRootToVirtual(new Point(x, y), alreadyScaledInParent);
+            return new Scalar(
+                              x
+                            , y
+                            , width
+                            , height
+                            , this
+                            , virtualWidth
+                            , virtualHeight
+                             );
         }
 
         /// <summary>
@@ -562,6 +538,30 @@ namespace Velentr.Scaling
         public override string ToString()
         {
             return $"x: {this.Bounds.X}, y:{this.Bounds.Y}, w:{this.Bounds.Width}, h:{this.Bounds.Height}, vd: {this.VirtualDimensions}, Has Parent? {this.ParentScalar != null}";
+        }
+
+        /// <summary>
+        ///     Calculates the properties on a dimension change.
+        /// </summary>
+        protected virtual void CalculateProperties()
+        {
+            this.InternalScale = new Scale(this._dimensions, this._virtualDimensions);
+            if (this._bounds != null)
+            {
+                this._bounds = new Rectangle(this.Coordinates.IntX, this.Coordinates.IntY, this.Dimensions.Width, this.Dimensions.Height);
+            }
+        }
+
+        /// <summary>
+        ///     Query if 'value' is default scale.
+        /// </summary>
+        /// <param name="value">    The value. </param>
+        /// <returns>
+        ///     True if default scale, false if not.
+        /// </returns>
+        private bool IsDefaultScale(double value)
+        {
+            return MathHelpers.Equals(DefaultScale, value);
         }
     }
 }

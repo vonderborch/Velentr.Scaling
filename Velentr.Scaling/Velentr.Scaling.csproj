@@ -11,9 +11,9 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <BaseOutputPath>..\release\</BaseOutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>1.1.0</Version>
-    <FileVersion>1.1.0</FileVersion>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <Version>1.1.1</Version>
+    <FileVersion>1.1.1</FileVersion>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

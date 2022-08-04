@@ -56,30 +56,6 @@ namespace Velentr.Scaling
         }
 
         /// <summary>
-        ///     Returns the fully qualified type name of this instance.
-        /// </summary>
-        /// <returns>
-        ///     The fully qualified type name.
-        /// </returns>
-        /// <seealso cref="System.ValueType.ToString()" />
-        public override string ToString()
-        {
-            return $"({this.X}x, {this.Y}x)";
-        }
-
-        /// <summary>
-        ///     Returns the hash code for this instance.
-        /// </summary>
-        /// <returns>
-        ///     A 32-bit signed integer that is the hash code for this instance.
-        /// </returns>
-        /// <seealso cref="System.ValueType.GetHashCode()" />
-        public override int GetHashCode()
-        {
-            return this.X.GetHashCode() ^ this.Y.GetHashCode();
-        }
-
-        /// <summary>
         ///     Indicates whether this instance and a specified object are equal.
         /// </summary>
         /// <param name="obj">  The object to compare with the current instance. </param>
@@ -98,6 +74,30 @@ namespace Velentr.Scaling
             var p = (Scale) obj;
 
             return MathHelpers.Equals(this.X, p.X) && MathHelpers.Equals(this.Y, p.Y);
+        }
+
+        /// <summary>
+        ///     Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>
+        ///     A 32-bit signed integer that is the hash code for this instance.
+        /// </returns>
+        /// <seealso cref="System.ValueType.GetHashCode()" />
+        public override int GetHashCode()
+        {
+            return this.X.GetHashCode() ^ this.Y.GetHashCode();
+        }
+
+        /// <summary>
+        ///     Returns the fully qualified type name of this instance.
+        /// </summary>
+        /// <returns>
+        ///     The fully qualified type name.
+        /// </returns>
+        /// <seealso cref="System.ValueType.ToString()" />
+        public override string ToString()
+        {
+            return $"({this.X}x, {this.Y}x)";
         }
     }
 }
