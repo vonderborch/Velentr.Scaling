@@ -1,0 +1,55 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{A104CFD7-8F2E-45FB-89D8-02BC0D6B5DCD}"
+	ProjectSection(SolutionItems) = preProject
+		CODEOWNERS = CODEOWNERS
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velentr.Scaling", "Velentr.Scaling\Velentr.Scaling.csproj", "{F57916C0-4E2C-4B61-A8DB-02D2BBC7680B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velentr.Scaling.Test", "Velentr.Scaling.Test\Velentr.Scaling.Test.csproj", "{2497106E-7384-401F-8B67-A2DB50873807}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velentr.Scaling.Dev", "Velentr.Scaling.Dev\Velentr.Scaling.Dev.csproj", "{F982EFFC-6433-412B-9341-391244405F01}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CoreDev", "CoreDev\CoreDev.shproj", "{227895C9-A4FD-43ED-807B-87AF42D69A34}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velentr.Scaling.Monogame.DevEnv", "Velentr.Scaling.Monogame.DevEnv\Velentr.Scaling.Monogame.DevEnv.csproj", "{A5193392-B7B7-4594-85B5-2E58A249D5C3}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		CoreDev\CoreDev.projitems*{227895c9-a4fd-43ed-807b-87af42d69a34}*SharedItemsImports = 13
+		CoreDev\CoreDev.projitems*{a5193392-b7b7-4594-85b5-2e58a249d5c3}*SharedItemsImports = 5
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F57916C0-4E2C-4B61-A8DB-02D2BBC7680B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F57916C0-4E2C-4B61-A8DB-02D2BBC7680B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F57916C0-4E2C-4B61-A8DB-02D2BBC7680B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F57916C0-4E2C-4B61-A8DB-02D2BBC7680B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2497106E-7384-401F-8B67-A2DB50873807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2497106E-7384-401F-8B67-A2DB50873807}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2497106E-7384-401F-8B67-A2DB50873807}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2497106E-7384-401F-8B67-A2DB50873807}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F982EFFC-6433-412B-9341-391244405F01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F982EFFC-6433-412B-9341-391244405F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F982EFFC-6433-412B-9341-391244405F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F982EFFC-6433-412B-9341-391244405F01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5193392-B7B7-4594-85B5-2E58A249D5C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5193392-B7B7-4594-85B5-2E58A249D5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5193392-B7B7-4594-85B5-2E58A249D5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5193392-B7B7-4594-85B5-2E58A249D5C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EF08031-0858-4824-88B8-11B63A46B77C}
+	EndGlobalSection
+EndGlobal
