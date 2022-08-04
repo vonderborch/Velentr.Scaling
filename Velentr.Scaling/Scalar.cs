@@ -473,6 +473,86 @@ namespace Velentr.Scaling
         }
 
         /// <summary>
+        ///     Gets root point from virtual percentage.
+        /// </summary>
+        /// <param name="horizontalPercentage"> (Optional) The horizontal percentage. Defaults to 0%. </param>
+        /// <param name="horizontalSide">
+        ///     (Optional) The horizontal side. Defaults to Side.Left,
+        ///     must be either Side.Left or Side.Right.
+        /// </param>
+        /// <param name="verticalPercentage">   (Optional) The vertical percentage. Defaults to 0%. </param>
+        /// <param name="verticalSide">
+        ///     (Optional) The vertical side. Defaults to Side.Top, must
+        ///     be either Side.Top or Side.Bottom.
+        /// </param>
+        /// <returns>
+        ///     The root point from virtual percentage.
+        /// </returns>
+        public Point GetRootPointFromVirtualPercentage(double horizontalPercentage = 0d, Side horizontalSide = Side.Left, double verticalPercentage = 0d, Side verticalSide = Side.Top)
+        {
+            return ConvertVirtualToRoot(GetVirtualPointFromPercentage(horizontalPercentage, horizontalSide, verticalPercentage, verticalSide));
+        }
+
+        /// <summary>
+        ///     Gets root point from virtual percentage.
+        /// </summary>
+        /// <param name="horizontalPercentage"> (Optional) The horizontal percentage. Defaults to 0%. </param>
+        /// <param name="horizontalSide">
+        ///     (Optional) The horizontal side. Defaults to Side.Left,
+        ///     must be either Side.Left or Side.Right.
+        /// </param>
+        /// <param name="verticalPercentage">   (Optional) The vertical percentage. Defaults to 0%. </param>
+        /// <param name="verticalSide">
+        ///     (Optional) The vertical side. Defaults to Side.Top, must
+        ///     be either Side.Top or Side.Bottom.
+        /// </param>
+        /// <returns>
+        ///     The root point from virtual percentage.
+        /// </returns>
+        public Point GetVirtualPointFromPercentage(double horizontalPercentage = 0d, Side horizontalSide = Side.Left, double verticalPercentage = 0d, Side verticalSide = Side.Top)
+        {
+            if (horizontalSide == Side.Top || horizontalSide == Side.Bottom)
+            {
+                throw new ArgumentOutOfRangeException(nameof(horizontalSide), "Must be configured to either Side.Left or Side.Right!");
+            }
+
+            if (verticalSide == Side.Left || verticalSide == Side.Right)
+            {
+                throw new ArgumentOutOfRangeException(nameof(verticalSide), "Must be configured to either Side.Top or Side.Bottom!");
+            }
+
+            var point = new Point(0, 0);
+
+            double percentage;
+
+            // Find the X Coordinate if we are requested to...
+            if (MathHelpers.Equals(horizontalPercentage, 0d))
+            {
+                percentage = horizontalPercentage;
+                if (horizontalSide == Side.Right)
+                {
+                    percentage = 1 - percentage;
+                }
+
+                point.X = this.Coordinates.X + percentage * this.VirtualDimensions.Width;
+            }
+
+            // Find the Y Coordinate if we are requested to...
+            if (MathHelpers.Equals(verticalPercentage, 0d))
+            {
+                percentage = verticalPercentage;
+                if (verticalSide == Side.Bottom)
+                {
+                    percentage = 1 - percentage;
+                }
+
+                point.Y = this.Coordinates.Y + percentage * this.VirtualDimensions.Height;
+            }
+
+            return point;
+        }
+
+        /// <summary>
         ///     Returns a string that represents the current object.
         /// </summary>
         /// <returns>
